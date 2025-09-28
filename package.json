@@ -3,12 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
- "scripts": {
+  "scripts": {
     "build": "vite build",
     "preview": "vite preview",
+    "spa-fallback": "node ./scripts/spa-fallback.cjs",
     "predeploy": "npm run build && npm run spa-fallback",
-    "deploy": "gh-pages -d dist",
-    "spa-fallback": "node ./scripts/spa-fallback.cjs"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "framer-motion": "^12.23.22",
