@@ -386,10 +386,11 @@ function submitQuiz(answers: QuizAnswers) {
           </div>
 
 <p className="leading-relaxed text-white/90">
-      Les canards sont déjà cachés et numérotés. Votre mission :
-      <strong className="text-white"> kidnapper (gentiment)</strong> chaque canard et cocher son numéro ici.
-      Pas de photo, pas d’indices. Bonne chasse !
-    </p> 
+  Des canards en plastique ont été cachés un peu partout — dans l’appartement et même à l'extérieur. 
+  À vous de les retrouver, de les ramasser et de cocher leur numéro ici.
+  <strong className="text-white"> Kidnapper (gentiment)</strong>, pas de photo, pas d’indices, et aucune aide fournie.
+  Bonne chasse !
+</p>
 
 
           <ul className="list-disc list-outside pl-6 space-y-1 text-white/90 marker:text-white">
