@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* filet de sécurité pour la lisibilité si Tailwind ne charge pas */
+html, body, #root { min-height: 100%; }
+body {
+  margin: 0;
+  background: #006D77 !important; /* bleu canard */
+  color: #fff !important;          /* texte blanc lisible */
+}
