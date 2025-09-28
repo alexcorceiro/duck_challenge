@@ -1,0 +1,32 @@
+# Node / Vite
+node_modules/
+dist/
+.temp/
+.tmp/
+.vite/
+
+# Logs, caches
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+.cache/
+.eslintcache
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tests/snapshots (si utilisés)
+coverage/
+*.snap
+
+# Env
+.env
+.env.*
+!.env.example
