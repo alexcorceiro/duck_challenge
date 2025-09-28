@@ -195,6 +195,7 @@ export default function App() {
   const [answerChangeCount, setAnswerChangeCount] = useState(0); // nb de changements de réponses
   const [antiCheatMsg, setAntiCheatMsg] = useState<string | null>(null);
   const [showIntro, setShowIntro] = useState(true); // joue au démarrage (phase intro)
+  const [showAntiCheat, setShowAntiCheat] = useState(false);
 
 
 
@@ -208,6 +209,14 @@ export default function App() {
   const id = setTimeout(() => setShowIntro(false), 5200);
   return () => clearTimeout(id);
 }, [showIntro, phase]);
+
+useEffect(() => {
+  if (!antiCheatMsg) return;
+  setShowAntiCheat(true);
+  const id = setTimeout(() => setShowAntiCheat(false), 6000);
+  return () => clearTimeout(id);
+}, [antiCheatMsg]);
+
 
     useEffect(() => {
       let ticking = false;
@@ -247,35 +256,45 @@ export default function App() {
 function submitQuiz(answers: QuizAnswers) {
   const source = quizReady.length ? quizReady : QUIZ;
 
+  // 1) Calcul du score
   let correct = 0;
   for (const q of source) {
     if (answers[q.id] === q.correctIndex) correct++;
   }
-
   const allGood = correct === source.length && source.length > 0;
-  const zeroGood = correct === 0;
 
-  const looksLikeCheat = zeroGood || (!allGood && (answerChangeCount >= 6 || quizAttempts >= 1));
-
-  if (looksLikeCheat) {
+  // 2) Si une seule réponse est fausse → pénalité immédiate
+  if (!allGood) {
+    // Associe l’ID des questions au numéro des canards concernés
     const mapIdToDuck: Record<string, number> = { q38: 38, q52: 52, q96: 96 };
-    const penalised = new Set<number>();
-    for (const q of source) if (mapIdToDuck[q.id] != null) penalised.add(mapIdToDuck[q.id]);
 
-    setAntiCheatMsg("😅 Ce n’est pas beau de tricher… Les canards #38, #52 et #96 retournent se cacher !");
+    // On détermine dynamiquement les canards à retirer d'après les questions actives
+    const penalised = new Set<number>();
+    for (const q of source) {
+      const duckNum = mapIdToDuck[q.id];
+      if (typeof duckNum === "number") penalised.add(duckNum);
+    }
+
+    // Message + retrait des badges
+    setAntiCheatMsg("😅 Oups ! Une ou plusieurs réponses sont incorrectes… Les canards #38, #52 et #96 retournent se cacher !");
     setCollected((prev) => prev.filter((n) => !penalised.has(n)));
+
+    // Reset et retour au tableau de chasse
     setQuizAttempts(0);
     setAnswerChangeCount(0);
     setPhase("collect");
-    return;
+    return; // on ne montre PAS l’écran de résultat
   }
 
-  setResult({ correct, total: source.length, allGood, allGod: allGood }); // ← compat
-  setQuizFeedback(allGood ? "success" : "error");
+  // 3) Cas parfait → on affiche le résultat (cadeau)
+  setResult({ correct, total: source.length, allGood, allGod: allGood }); // allGod pour compat éventuelle
+  setQuizFeedback("success");
   setPhase("result");
-  if (!allGood) setQuizAttempts((a) => a + 1);
+
+  // Reset du compteur de changements pour la prochaine tentative
   setAnswerChangeCount(0);
 }
+
 
   useEffect(() => {
     if (phase === "quiz") {
@@ -339,14 +358,27 @@ function submitQuiz(answers: QuizAnswers) {
           </span>
         </div>
       </header>
+        {antiCheatMsg && showAntiCheat && (
+          <div
+            role="status"
+            aria-live="polite"
+            className="sticky top-0 z-40"
+          >
+            <div className="bg-yellow-400 text-duck font-semibold">
+              <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+                <span>{antiCheatMsg}</span>
+                <button
+                  onClick={() => setShowAntiCheat(false)}
+                  className="px-3 py-1 rounded-md bg-duck text-white hover:bg-duck/90 text-sm"
+                  aria-label="Fermer l’avertissement"
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       <main className="max-w-6xl mx-auto px-4 py-8 space-y-10">
-      {antiCheatMsg && (
-        <div className="mb-4 px-4 py-3 rounded-lg bg-yellow-400 text-duck font-semibold flex items-center justify-center">
-          {antiCheatMsg}
-        </div>
-      )}
-
-
       {phase === "intro" && (
         <section className="space-y-3">
          <div className="flex flex-col gap-2">
