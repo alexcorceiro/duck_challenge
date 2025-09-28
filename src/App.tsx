@@ -353,11 +353,11 @@ function submitQuiz(answers: QuizAnswers) {
             <h2 className="text-xl font-semibold text-white">Brief rapide</h2>
           </div>
 
-         <p className="leading-relaxed text-white/90">
-          Les canards sont déjà cachés et numérotés. Votre mission :
-          <strong className="text-white"> kidnapper (gentiment)</strong> chaque canard et cocher son numéro ici.
-          Pas de photo, pas d’indices. Bonne chasse !
-        </p>
+<p className="leading-relaxed text-white/90">
+      Les canards sont déjà cachés et numérotés. Votre mission :
+      <strong className="text-white"> kidnapper (gentiment)</strong> chaque canard et cocher son numéro ici.
+      Pas de photo, pas d’indices. Bonne chasse !
+    </p> 
 
 
           <ul className="list-disc list-outside pl-6 space-y-1 text-white/90 marker:text-white">
@@ -366,11 +366,7 @@ function submitQuiz(answers: QuizAnswers) {
             <li>Cochez le numéro dès qu’un canard est récupéré.</li>
           </ul>
 
-      <p className="leading-relaxed text-white/90">
-      Les canards sont déjà cachés et numérotés. Votre mission :
-      <strong className="text-white"> kidnapper (gentiment)</strong> chaque canard et cocher son numéro ici.
-      Pas de photo, pas d’indices. Bonne chasse !
-    </p>
+      
 
     <button
       onClick={() => { arm(); setPhase("collect"); }}
