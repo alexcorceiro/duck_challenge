@@ -60,17 +60,25 @@ function shuffleArray<T>(arr: T[]): T[] {
   return a;
 }
 
+//function useSounds() {
+ // const [enabled, setEnabled] = useState(false);
+  //const arm = () => { if (!enabled) setEnabled(true); };
+  //const play = (name: string) => {
+   // if (!enabled) return;
+   // const el = new Audio(`/sounds/${name}.mp3`);
+   // el.volume = 0.7;
+  //  el.play().catch(() => {});
+//  };
+//  return { play, arm };
+//}
+
 function useSounds() {
-  const [enabled, setEnabled] = useState(false);
-  const arm = () => { if (!enabled) setEnabled(true); };
-  const play = (name: string) => {
-    if (!enabled) return;
-    const el = new Audio(`/sounds/${name}.mp3`);
-    el.volume = 0.7;
-    el.play().catch(() => {});
+  return {
+    play: (_: string) => {},
+    arm: () => {},
   };
-  return { play, arm };
 }
+
 
 /* --- UI sur fond bleu canard --- */
 function ProgressBar({ value }: { value: number }) {
